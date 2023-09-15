@@ -1,28 +1,23 @@
-def insertion_sort(a, n, h):
-    num_of_move = 0
+# 入力
+N = int(input())
 
-    for i in range(h, n):
-        x = a[i]
-        j = i - h
+# 上の桁から順番に「2 進法に変換した値」を求める
+l = [i for i in range(9,-1,-1)] #[9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
+# [512,256,128,64,32,16,8,4,2,1] これで割る
+# print(l)
+for x in l:
+	wari = (2 ** x)
+	print((N // wari) % 2, end='')
 
-        while j >= 0 and a[j] > x:
-            a[j + h] = a[j]
-            j -= h
-            num_of_move += 1
-
-        a[j + h] = x
-
-    print(num_of_move)
-
-
-def shell_sort(a, n, h):
-    for h_i in h:
-        insertion_sort(a, n, h_i)
-
-
-n = int(input())
-a = list(map(int, input().split()))
-k = int(input())
-h = list(map(int, input().split()))
-
-shell_sort(a, n, h)
+# 最後に改行する
+# print("")
+print(90 // 512 % 2)
+print(90 // 256 % 2)
+print(90 // 128 % 2)
+print(90 // 64 % 2)
+print(90 // 32 % 2)
+print(90 // 16 % 2)
+print(90 // 8 % 2)
+print(90 // 4 % 2)
+print(90 // 2 % 2)
+print(90 // 1 % 2)
