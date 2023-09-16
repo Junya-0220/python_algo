@@ -1,45 +1,57 @@
 """
-累積和を求めてから、対象の期間の累計を出力する。
 
-入力例
-10 5
-8 6 9 1 2 1 10 100 1000 10000
-2 3
-1 4
-3 9
-6 8
-1 10
+i=1,2,3,…,Q それぞれについて，
+アタリの方が多い場合 win を，
+ハズレの方が多い場合 lose を，
+アタリとハズレが同じ場合 draw を，一行ずつ，総計 Q 行に出力してください．
 
-出力例
-15
-24
-1123
-111
-11137
+入力
+7
+0 1 1 0 1 0 0
+3
+2 5
+2 7
+5 7
+
+出力
+win
+draw
+lose
+
 """
 
-# Nが全体の集計日,Qが集計した日から対象の期間を抜き出す回数
-N, Q = map(int, input().split())
-# Aは日毎の来場者数
+# 入力
+N = int(input())
+# この書き方覚えておいた方がいいかもね list関数を使って、map関数でintを指定し、
+# 最終的に数値の配列が標準入力から取得できる
 A = list(map(int, input().split()))
-L = [ None ] * Q # Noneという要素を初期化で入れている
+Q = int(input())
+L = [ None ] * Q
 R = [ None ] * Q
-for j in range(Q):
-	L[j], R[j] = map(int, input().split())
+for i in range(Q):
+	L[i], R[i] = map(int, input().split())
 
-# print(L)
-# print(R)
+# アタリの個数・ハズレの個数の累積和を求める
+# 配列 A が 0 番目から始まっていることに注意！
+Atari = [ 0 ] * (N + 1)
+Hazre = [ 0 ] * (N + 1)
+for i in range(1, N+1):
+	# アタリについて計算
+	Atari[i] = Atari[i - 1]
+	if A[i - 1] == 1:
+		Atari[i] += 1
+	# ハズレについて計算
+	Hazre[i] = Hazre[i - 1]
+	if A[i - 1] == 0:
+		Hazre[i] += 1
 
-# Nが全体の集計日に対して、それに１を追加した配列Sを用意する
-S = [ None ] * (N + 1)
-
-# Sの添字0に対して、0を代入する。
-S[0] = 0
-# 累積和を計算している最終的にSに累積和が取得できる
-for i in range(N):
-	# S[i + 1]からスタートすることで、S[0]に対しては代入していない
-	S[i + 1] = S[i] + A[i]
-
-# 対象の期間分ループを回す
-for j in range(Q):
-	print(S[R[j]] - S[L[j] - 1])
+# 質問に答える
+for i in range(Q):
+	NumAtari = Atari[R[i]] - Atari[L[i] - 1]
+	NumHazre = Hazre[R[i]] - Hazre[L[i] - 1]
+	if NumAtari > NumHazre:
+		print("win")
+	elif NumAtari == NumHazre:
+		print("draw")
+	else:
+		print("lose")
